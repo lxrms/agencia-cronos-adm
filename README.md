@@ -5,6 +5,3 @@
 `$ npm install`
 
 `$ npm start`
-
-
-## Para visualizar:
