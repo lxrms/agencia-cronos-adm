@@ -25,6 +25,7 @@ function ModalCadastro() {
           </div>
           <div className="modal-body">
             <Formulario />
+            <div id="criarAlerta"></div>
           </div>
           <div className="modal-footer">
             <button

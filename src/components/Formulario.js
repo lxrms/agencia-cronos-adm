@@ -1,6 +1,6 @@
 function Formulario() {
   return (
-    <form>
+    <form id="formulario">
       <div className="form-group">
         <label>Nome do Curso</label>
         <input
@@ -21,12 +21,12 @@ function Formulario() {
       </div>
       <label>Descição do Curso</label>
       <div className="form-group">
-        <input
+        <textarea
           type="text"
           className="form-control"
           id="descricaoCurso"
-          placeholder="Digite a URL da Imagem"
-        />
+          placeholder="Digite a Descrição do Cursos"
+        ></textarea>
       </div>
     </form>
   );

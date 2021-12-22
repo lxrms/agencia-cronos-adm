@@ -15,6 +15,7 @@ function Conteudo() {
             >
               Adicionar novo
             </button>
+            <div id="cadastradoComSucesso"></div>
             <TabelaCursos />
           </div>
         </div>
