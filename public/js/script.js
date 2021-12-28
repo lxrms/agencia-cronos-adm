@@ -4,12 +4,12 @@ window.onload = function () {
 
   //Acessando botões
   let btnSalvarCurso = document.querySelector("#btnSalvar");
-  let btnCancelarCadastroCurso = document.querySelector("#cancelar");
-  const modalCadastro = document.querySelector("#modalCadastro div.modal-body");
-  const alerta = document.querySelector("#criarAlerta");
+  let btnEditarCurso = document.querySelector("#btnEditarCurso");
 
   //Criar Alerta
-  function criarAlerta(texto) {
+  function criarAlerta(idAlerta, texto) {
+    const alerta = document.querySelector(idAlerta);
+    alerta.innerHTML = "";
     alerta.classList.add("alert", "alert-danger");
     const textoAlerta = document.createElement("p");
     const conteudoAlerta = document.createTextNode(texto);
@@ -25,8 +25,7 @@ window.onload = function () {
     let descricaoCurso = document.querySelector("#descricaoCurso").value;
 
     if (nomeCurso == "" || imgCurso == "" || descricaoCurso == "") {
-      alerta.innerHTML = "";
-      criarAlerta("Ops! Preencha todos os campos!");
+      criarAlerta("#criarAlerta", "Ops! Preencha todos os campos!");
     } else {
       let curso = {
         nome: nomeCurso,
@@ -34,18 +33,19 @@ window.onload = function () {
         descricao: descricaoCurso,
       };
 
-      listaCursos.push(curso);
+      const cursoindex = listaCursos.push(curso) - 1;
 
       const novoCurso = document.createElement("tr");
+      novoCurso.id = "curso-index" + cursoindex;
       novoCurso.innerHTML = `
-      <td>${nomeCurso}</td>
+      <td class="cursoNome">${nomeCurso}</td>
       <td>
-        <img src="${imgCurso}" class="img-fluid" />
+        <img src="${imgCurso}" class="img-fluid cursoImg" />
       </td>
-      <td>${descricaoCurso}</td>
+      <td class="cursoDescricao">${descricaoCurso}</td>
       <td>
-        <button class="btn btn-secondary m-1">editar</button>
-        <button class="btn btn-danger m-1">excluir</button>
+        <button class="btn btn-secondary m-1" onclick="editarCurso(${cursoindex})">editar</button>
+        <button class="btn btn-danger m-1" >excluir</button>
       </td>
     `;
       $("#modalCadastro").modal("hide");
@@ -65,8 +65,53 @@ window.onload = function () {
 
   //Eventos
   btnSalvarCurso.addEventListener("click", cadastrarCurso);
+  
+
+  // Função editar curso
+  window.editarCurso = function editarCurso(cursoindex) {
+    $("#modalEditar").modal("show");
+
+    let novoNomeCurso = document.querySelector("#nomeCursoEditar");
+    let novoImgCurso = document.querySelector("#imgCursoEditar");
+    let novoDescricaoCurso = document.querySelector("#descricaoCursoEditar");
+
+    // Pegando o valor atual do curso para mostrar no form do modal
+    novoNomeCurso.value = listaCursos[cursoindex].nome;
+    novoImgCurso.value = listaCursos[cursoindex].imagem;
+    novoDescricaoCurso.value = listaCursos[cursoindex].descricao;
+
+    //evento
+    btnEditarCurso.addEventListener("click", editarCurso);
+    $("#modalEditar").on("hide.bs.modal", function () {
+      btnEditarCurso.removeEventListener("click", editarCurso);
+    });
+
+    function editarCurso() {
+      const curso = listaCursos[cursoindex];
+
+      curso.nome = novoNomeCurso.value;
+      curso.imagem = novoImgCurso.value;
+      curso.descricao = novoDescricaoCurso.value;
+
+      if (curso.nome == "" || curso.imagem == "" || curso.descricao == "") {
+
+        criarAlerta("#criarAlertaEditar", "Ops! Preencha todos os campos!");
+      } else {
+        let cursoEditado = document.querySelector(`#curso-index${cursoindex}`);
+        // Atualizando o nome do curso
+        const cursoNome = cursoEditado.querySelector(".cursoNome");
+        cursoNome.textContent = curso.nome;
+
+        // Atualizando a imagem do curso
+        const cursoImg = cursoEditado.querySelector(".cursoImg");
+        cursoImg.src = curso.imagem;
+
+        // Atualizando a descrição do curso
+        const cursoDescricao = cursoEditado.querySelector(".cursoDescricao");
+        cursoDescricao.textContent = curso.descricao;
+
+        $("#modalEditar").modal("hide");
+      }
+    }
+  };
 };
-
-//Lista de Cursos
-
-//Funções Criar Curso

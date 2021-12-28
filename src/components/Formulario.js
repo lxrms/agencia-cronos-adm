@@ -1,4 +1,4 @@
-function Formulario() {
+function Formulario({ tipo = "" }) {
   return (
     <form id="formulario">
       <div className="form-group">
@@ -6,7 +6,7 @@ function Formulario() {
         <input
           type="text"
           className="form-control"
-          id="nomeCurso"
+          id={`nomeCurso${tipo}`}
           placeholder="Digite o nome do Curso"
         />
       </div>
@@ -15,7 +15,7 @@ function Formulario() {
         <input
           type="text"
           className="form-control"
-          id="imgCurso"
+          id={`imgCurso${tipo}`}
           placeholder="Digite a URL da Imagem"
         />
       </div>
@@ -24,7 +24,7 @@ function Formulario() {
         <textarea
           type="text"
           className="form-control"
-          id="descricaoCurso"
+          id={`descricaoCurso${tipo}`}
           placeholder="Digite a Descrição do Cursos"
         ></textarea>
       </div>
