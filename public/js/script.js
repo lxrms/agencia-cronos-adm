@@ -3,6 +3,7 @@ window.onload = function () {
 
   //Lista de Servicos
   let listaServicos = [
+    // Conteudo inicial de exemplo
     {
       nome: "Desenvolvimento Web",
       imagem: "imagens/ilustra-marketing.png",
@@ -22,7 +23,7 @@ window.onload = function () {
 
   //Renderiza lista servicos
   const renderListaServicos = () => {
-    let html = ''
+    let html = "";
     listaServicos.map((servico, index) => {
       html += `
         <tr id="servico-index${index}">
@@ -33,18 +34,20 @@ window.onload = function () {
           <td class="servicoDescricao">${servico.descricao}</td>
           <td>
             <button class="btn btn-secondary m-1" onclick="editarServico(${index})">editar</button>
-            <button class="btn btn-danger m-1" >excluir</button>
+            <button class="btn btn-danger m-1" id="deletarServico">excluir</button>
           </td>
         </tr>
-      `
-    })
-    listaServicosRenderizada.innerHTML = html
+      `;
+    });
+    listaServicosRenderizada.innerHTML = html;
   };
   renderListaServicos();
 
   //Acessando botões
-  let btnSalvarServico = document.querySelector("#btnSalvar");
-  let btnEditarServico = document.querySelector("#btnEditarServico");
+  const btnSalvarServico = document.querySelector("#btnSalvar");
+  const btnEditarServico = document.querySelector("#btnEditarServico");
+  
+
 
   //Criar Alerta
   function criarAlerta(idAlerta, texto) {
@@ -53,7 +56,6 @@ window.onload = function () {
     alerta.classList.add("alert", "alert-danger");
     const textoAlerta = document.createElement("p");
     const conteudoAlerta = document.createTextNode(texto);
-
     textoAlerta.appendChild(conteudoAlerta);
     alerta.appendChild(textoAlerta);
   }
@@ -72,25 +74,8 @@ window.onload = function () {
         imagem: imgServico,
         descricao: descricaoServico,
       };
-      listaServicos.push(servico)
-      renderListaServicos()
-      //remover a partir daqui
-
-    //   const servicoindex = listaServicos.push(servico) - 1;
-
-    //   const novoServico = document.createElement("tr");
-    //   novoServico.id = "servico-index" + servicoindex;
-    //   novoServico.innerHTML = `
-    //   <td class="servicoNome">${nomeServico}</td>
-    //   <td>
-    //     <img src="${imgServico}" class="img-fluid servicoImg" />
-    //   </td>
-    //   <td class="servicoDescricao">${descricaoServico}</td>
-    //   <td>
-    //     <button class="btn btn-secondary m-1" onclick="editarServico(${servicoindex})">editar</button>
-    //     <button class="btn btn-danger m-1" >excluir</button>
-    //   </td>
-    // `;
+      listaServicos.push(servico);
+      renderListaServicos();
 
       $("#modalCadastro").modal("hide");
       document.getElementById("cadastradoComSucesso").innerHTML = `
@@ -102,13 +87,23 @@ window.onload = function () {
       </div>
       `;
       document.getElementById("formulario").reset();
-      document.querySelector("#tabelaServicos tbody").appendChild(novoServico);
-      console.log(listaServicos);
     }
   };
 
   //Eventos
   btnSalvarServico.addEventListener("click", cadastrarServico);
+
+  // Funcao deletar servico
+  const deletarServico = (e) => {
+    if (e.target.id === 'deletarServico'){
+      const idServico = Number(e.target.parentElement.parentElement.id.replace('servico-index', ''))
+      console.log(idServico)
+      listaServicos.splice(idServico, 1)
+      renderListaServicos()
+    }
+  };
+  listaServicosRenderizada.addEventListener('click', deletarServico)
+
 
   // Função editar servico
   window.editarServico = function editarServico(servicoindex) {
