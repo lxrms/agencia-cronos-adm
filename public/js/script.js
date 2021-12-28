@@ -1,13 +1,46 @@
 window.onload = function () {
-  const listaServicosRenderizada = document.querySelector("#tabelaServicos tbody")
-  
+  const listaServicosRenderizada = document.querySelector("#tabelaServicos tbody");
+
   //Lista de Servicos
   let listaServicos = [
-    {nome: 'Desenvolvimento Web', imagem: 'imagens/ilustra-marketing.png', descricao: 'Consequatur debitis ipsa numquam illum placeat quod deleniti.'},
-    {nome: 'Marketing Digital', imagem: 'imagens/ilustra-marketing.png', descricao: 'Consequatur debitis ipsa numquam illum placeat quod deleniti.'},
-    {nome: 'Consultoria UX', imagem: 'imagens/ilustra-ux.png', descricao: 'Consequatur debitis ipsa numquam illum placeat quod deleniti.'},
+    {
+      nome: "Desenvolvimento Web",
+      imagem: "imagens/ilustra-marketing.png",
+      descricao: "Consequatur debitis ipsa numquam illum placeat quod deleniti.",
+    },
+    {
+      nome: "Marketing Digital",
+      imagem: "imagens/ilustra-marketing.png",
+      descricao: "Consequatur debitis ipsa numquam illum placeat quod deleniti.",
+    },
+    {
+      nome: "Consultoria UX",
+      imagem: "imagens/ilustra-ux.png",
+      descricao: "Consequatur debitis ipsa numquam illum placeat quod deleniti.",
+    },
   ];
 
+  //Renderiza lista servicos
+  const renderListaServicos = () => {
+    let html = ''
+    listaServicos.map((servico, index) => {
+      html += `
+        <tr id="servico-index${index}">
+          <td class="servicoNome">${servico.nome}</td>
+          <td>
+            <img src="${servico.imagem}" class="img-fluid servicoImg" />
+          </td>
+          <td class="servicoDescricao">${servico.descricao}</td>
+          <td>
+            <button class="btn btn-secondary m-1" onclick="editarServico(${index})">editar</button>
+            <button class="btn btn-danger m-1" >excluir</button>
+          </td>
+        </tr>
+      `
+    })
+    listaServicosRenderizada.innerHTML = html
+  };
+  renderListaServicos();
 
   //Acessando botões
   let btnSalvarServico = document.querySelector("#btnSalvar");
@@ -39,23 +72,25 @@ window.onload = function () {
         imagem: imgServico,
         descricao: descricaoServico,
       };
+      listaServicos.push(servico)
+      renderListaServicos()
+      //remover a partir daqui
 
-      const servicoindex = listaServicos.push(servico) - 1;
+    //   const servicoindex = listaServicos.push(servico) - 1;
 
-      const novoServico = document.createElement("tr");
-      novoServico.id = "servico-index" + servicoindex;
-      novoServico.innerHTML = `
-      <td class="servicoNome">${nomeServico}</td>
-      <td>
-        <img src="${imgServico}" class="img-fluid servicoImg" />
-      </td>
-      <td class="servicoDescricao">${descricaoServico}</td>
-      <td>
-        <button class="btn btn-secondary m-1" onclick="editarServico(${servicoindex})">editar</button>
-        <button class="btn btn-danger m-1" >excluir</button>
-      </td>
-    `;
-
+    //   const novoServico = document.createElement("tr");
+    //   novoServico.id = "servico-index" + servicoindex;
+    //   novoServico.innerHTML = `
+    //   <td class="servicoNome">${nomeServico}</td>
+    //   <td>
+    //     <img src="${imgServico}" class="img-fluid servicoImg" />
+    //   </td>
+    //   <td class="servicoDescricao">${descricaoServico}</td>
+    //   <td>
+    //     <button class="btn btn-secondary m-1" onclick="editarServico(${servicoindex})">editar</button>
+    //     <button class="btn btn-danger m-1" >excluir</button>
+    //   </td>
+    // `;
 
       $("#modalCadastro").modal("hide");
       document.getElementById("cadastradoComSucesso").innerHTML = `
@@ -74,7 +109,6 @@ window.onload = function () {
 
   //Eventos
   btnSalvarServico.addEventListener("click", cadastrarServico);
-  
 
   // Função editar servico
   window.editarServico = function editarServico(servicoindex) {
@@ -103,7 +137,6 @@ window.onload = function () {
       servico.descricao = novoDescricaoServico.value;
 
       if (servico.nome == "" || servico.imagem == "" || servico.descricao == "") {
-
         criarAlerta("#criarAlertaEditar", "Ops! Preencha todos os campos!");
       } else {
         let servicoEditado = document.querySelector(`#servico-index${servicoindex}`);
