@@ -2,9 +2,9 @@ function Header() {
   return (
     <header>
       <div className="container">
-        <a href="#">
+        <span>
           <img src="imagens/CRONOS-logo-white.png" alt="Agência CRONOS" />
-        </a>
+        </span>
         <h1>Painel administrativo</h1>
       </div>
     </header>
