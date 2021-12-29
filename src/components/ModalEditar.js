@@ -35,7 +35,7 @@ function ModalEditar() {
               Fechar
             </button>
             <button
-              id="btnEditarCurso"
+              id="btnEditarServico"
               type="button"
               className="btn btn-primary"
             >

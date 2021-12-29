@@ -1,4 +1,4 @@
-import TabelaCursos from "./TabelaCursos";
+import TabelaServicos from "./TabelaServicos";
 
 function Conteudo() {
   return (
@@ -16,7 +16,7 @@ function Conteudo() {
               Adicionar novo
             </button>
             <div id="cadastradoComSucesso"></div>
-            <TabelaCursos />
+            <TabelaServicos />
           </div>
         </div>
       </div>
