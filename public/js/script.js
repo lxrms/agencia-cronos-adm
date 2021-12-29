@@ -46,8 +46,6 @@ window.onload = function () {
   //Acessando botões
   const btnSalvarServico = document.querySelector("#btnSalvar");
   const btnEditarServico = document.querySelector("#btnEditarServico");
-  
-
 
   //Criar Alerta
   function criarAlerta(idAlerta, texto) {
@@ -93,17 +91,19 @@ window.onload = function () {
   //Eventos
   btnSalvarServico.addEventListener("click", cadastrarServico);
 
-  // Funcao deletar servico
-  const deletarServico = (e) => {
-    if (e.target.id === 'deletarServico'){
-      const idServico = Number(e.target.parentElement.parentElement.id.replace('servico-index', ''))
-      console.log(idServico)
-      listaServicos.splice(idServico, 1)
-      renderListaServicos()
-    }
+  // Helper - Retorna o id do servico com base no evento
+  const idDoEvento = (e) => {
+    return Number(e.target.parentElement.parentElement.id.replace("servico-index", ""));
   };
-  listaServicosRenderizada.addEventListener('click', deletarServico)
 
+  // Funcao deletar servico
+  listaServicosRenderizada.addEventListener("click", (e) => {
+    if (e.target.id === "deletarServico") {
+      const id = idDoEvento(e);
+      listaServicos.splice(id, 1);
+      renderListaServicos();
+    }
+  });
 
   // Função editar servico
   window.editarServico = function editarServico(servicoindex) {
